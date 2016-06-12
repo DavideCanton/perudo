@@ -12,9 +12,22 @@ mod puntata;
 use die::Die;
 use puntata::Puntata;
 use probs::get_probs_of;
+use std::io;
+
+fn read_int() -> i32 {
+    let mut input_text = String::new();
+
+    io::stdin()
+        .read_line(&mut input_text)
+        .expect("failed to read from stdin");
+
+    let trimmed = input_text.trim();
+    trimmed.parse::<i32>().expect("Invalid integer!")
+}
 
 fn main() {
-    let dices = 25;
+    println!("Enter players' other dices count:");
+    let dices = read_int();
     let my_dices = vec![Die::new(5)];
     let p = Puntata::new(1, 5);
 
