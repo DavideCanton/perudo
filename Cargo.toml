@@ -1,0 +1,9 @@
+[project]
+name = "perudo"
+version = "0.1.0"
+authors = ["Kami <davide.canton5@gmail.com>"]
+
+[dependencies]
+probability = "*"
+random = "*"
+rand = "*"
