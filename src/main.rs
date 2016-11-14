@@ -27,18 +27,33 @@ fn read_int() -> i32 {
 
 fn main() {
     println!("Enter players' other dices count:");
-    let dices = read_int();
-    let my_dices = vec![Die::new(5)];
-    let p = Puntata::new(1, 5);
 
-    let all_probs = get_probs_of(dices, &my_dices, true, &p);
+    let dice = read_int();
+    let my_dice = vec![Die::new(5)];
+    println!("My dice: {:?}", my_dice);
+
+    let p = Puntata::new(4, 5);
+
+    let all_probs = get_probs_of(dice, &my_dice, false, &p);
 
     let mut sorted_all_probs: Vec<_> = all_probs.into_iter().collect();
 
     sorted_all_probs.sort_by(|&(_, v1), &(_, v2)| v1.partial_cmp(&v2).unwrap().reverse());
-    let sorted_all_probs: Vec<_> = sorted_all_probs.into_iter().take(10).collect();
 
-    for &(p, f) in &sorted_all_probs {
-        println!("{} -> {}", p, f);
+    let prob_of_p = {
+        let ref t = sorted_all_probs.iter().find(|&&(p1, _)| p1 == p).unwrap();
+        t.1
+    };
+
+    sorted_all_probs.retain(|&(px, _)| px != p);
+
+    println!("Probability of {}: {1:.2}%", p, prob_of_p * 100.0);
+
+    if prob_of_p <= 0.2 {
+        println!("I would dubitate...");
+    } else {
+        println!("I would play {}, with chance {1:.2}%",
+                 sorted_all_probs[0].0,
+                 sorted_all_probs[0].1 * 100.0);
     }
 }

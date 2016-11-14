@@ -1,5 +1,6 @@
 use std::fmt;
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Die {
     val: i32,
 }
@@ -9,11 +10,15 @@ impl Die {
         Die { val: val }
     }
 
+    pub fn new_lama() -> Self {
+        Die::new(1)
+    }
+
     pub fn matches_value(&self, n: i32, is_palifico: bool) -> bool {
         if is_palifico {
             n == self.val
         } else {
-            n == self.val || self.val == 1
+            n == self.val || self.is_lama()
         }
     }
 

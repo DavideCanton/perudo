@@ -1,6 +1,5 @@
 use std::cmp::max;
 use die::Die;
-use std::ops::Add;
 use std::collections::HashMap;
 use probability::distribution::{Categorical, Binomial, Sample, Discrete};
 use random::{default, Default};
@@ -36,10 +35,9 @@ fn my_dices_matching(my_dices: &Vec<Die>, v: i32, is_palifico: bool) -> i32 {
 }
 
 pub fn prob_of(other_dices: i32, my_dices: &Vec<Die>, is_palifico: bool, p: &Puntata) -> f64 {
-
     let valid_my_dices = my_dices_matching(my_dices, p.get_value(), is_palifico);
 
-    let prob = if p.get_value() == 1 || is_palifico {
+    let prob = if p.is_lama() || is_palifico {
         // considera solo il valore della puntata nel calcolo
         1.0 / 6.0
     } else {
@@ -54,7 +52,7 @@ pub fn prob_of(other_dices: i32, my_dices: &Vec<Die>, is_palifico: bool, p: &Pun
     } else {
         (start..other_dices + 1)
             .map(|v| dist.mass(v as usize))
-            .fold(0.0, Add::add) // sum is currently unstable
+            .sum()
     }
 }
 
@@ -63,7 +61,6 @@ pub fn get_probs_of(other_dices: i32,
                     is_palifico: bool,
                     least_puntata: &Puntata)
                     -> HashMap<Puntata, f64> {
-
     let total_dices = other_dices + my_dices.len() as i32;
     let all_puntate = all_gt_puntate(total_dices, least_puntata, is_palifico);
 
@@ -102,5 +99,14 @@ mod tests {
         let c = my_dices_matching(&my_dices, 2, false);
 
         assert_eq!(c, 3);
+    }
+
+    #[test]
+    fn test_my_dices_matching_palifico() {
+        let my_dices = vec![2, 2, 1, 4, 5].into_iter().map(Die::new).collect();
+
+        let c = my_dices_matching(&my_dices, 2, true);
+
+        assert_eq!(c, 2);
     }
 }

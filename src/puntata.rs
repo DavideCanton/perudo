@@ -1,31 +1,43 @@
 use std::fmt;
 use std::collections::HashSet;
+use die::Die;
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Puntata {
-    value: i32,
+    value: Die,
     count: i32,
 }
 
 impl Puntata {
     pub fn new(count: i32, value: i32) -> Self {
         Puntata {
-            value: value,
+            value: Die::new(value),
             count: count,
         }
     }
 
+    pub fn new_lama(count: i32) -> Self {
+        Puntata {
+            value: Die::new_lama(),
+            count: count
+        }
+    }
+
     pub fn get_value(&self) -> i32 {
-        self.value
+        self.value.get_value()
     }
 
     pub fn get_count(&self) -> i32 {
         self.count
     }
 
+    pub fn is_lama(&self) -> bool {
+        self.value.is_lama()
+    }
+
     pub fn with_count(&self, count: i32) -> Self {
         Puntata {
-            value: self.value,
+            value: Die::new(self.value.get_value()),
             count: count,
         }
     }
@@ -33,9 +45,10 @@ impl Puntata {
 
 impl fmt::Display for Puntata {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
-        match self.value {
-            1 => write!(fmt, "Puntata di {} Lama", self.count),
-            n => write!(fmt, "Puntata di {} {}", self.count, n),
+        if self.is_lama() {
+            write!(fmt, "Puntata di {} Lama", self.count)
+        } else {
+            write!(fmt, "Puntata di {} {}", self.count, self.value.get_value())
         }
 
     }
@@ -44,8 +57,8 @@ impl fmt::Display for Puntata {
 pub fn least_gt_puntate(p: &Puntata, is_palifico: bool) -> Vec<Puntata> {
     let mut v = vec![];
 
-    if p.value != 1 {
-        for i in (p.value + 1)..7 {
+    if !p.is_lama() {
+        for i in (p.value.get_value() + 1)..7 {
             v.push(Puntata::new(p.count, i));
         }
 
@@ -77,13 +90,14 @@ pub fn all_gt_puntate(total_dices: i32, p: &Puntata, is_palifico: bool) -> Vec<P
                     })
                     .collect::<HashSet<_>>();
 
-    if !is_palifico || p.get_value() == 1 {
+    if !is_palifico || p.is_lama() {
         for i in p.count..total_dices + 1 {
-            v.insert(Puntata::new(i, 1));
+            v.insert(Puntata::new_lama(i));
         }
     }
 
     v.remove(p);
+    v.insert(p.clone());
 
     v.into_iter().collect()
 }
