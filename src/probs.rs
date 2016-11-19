@@ -28,13 +28,13 @@ impl DieGenerator {
     }
 }
 
-fn my_dices_matching(my_dices: &Vec<Die>, v: i32, is_palifico: bool) -> i32 {
+fn my_dices_matching(my_dices: &[Die], v: i32, is_palifico: bool) -> i32 {
     my_dices.iter()
-            .filter(|d| d.matches_value(v, is_palifico))
-            .count() as i32
+        .filter(|d| d.matches_value(v, is_palifico))
+        .count() as i32
 }
 
-pub fn prob_of(other_dices: i32, my_dices: &Vec<Die>, is_palifico: bool, p: &Puntata) -> f64 {
+pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: &Puntata) -> f64 {
     let valid_my_dices = my_dices_matching(my_dices, p.get_value(), is_palifico);
 
     let prob = if p.is_lama() || is_palifico {
@@ -57,7 +57,7 @@ pub fn prob_of(other_dices: i32, my_dices: &Vec<Die>, is_palifico: bool, p: &Pun
 }
 
 pub fn get_probs_of(other_dices: i32,
-                    my_dices: &Vec<Die>,
+                    my_dices: &[Die],
                     is_palifico: bool,
                     least_puntata: &Puntata)
                     -> HashMap<Puntata, f64> {
@@ -65,11 +65,11 @@ pub fn get_probs_of(other_dices: i32,
     let all_puntate = all_gt_puntate(total_dices, least_puntata, is_palifico);
 
     all_puntate.iter()
-               .map(|&p| {
-                   let prob = prob_of(other_dices, my_dices, is_palifico, &p);
-                   (p, prob)
-               })
-               .collect::<HashMap<_, _>>()
+        .map(|&p| {
+            let prob = prob_of(other_dices, my_dices, is_palifico, &p);
+            (p, prob)
+        })
+        .collect::<HashMap<_, _>>()
 }
 
 

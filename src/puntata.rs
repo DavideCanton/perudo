@@ -19,7 +19,7 @@ impl Puntata {
     pub fn new_lama(count: i32) -> Self {
         Puntata {
             value: Die::new_lama(),
-            count: count
+            count: count,
         }
     }
 
@@ -84,11 +84,11 @@ pub fn least_gt_puntate(p: &Puntata, is_palifico: bool) -> Vec<Puntata> {
 
 pub fn all_gt_puntate(total_dices: i32, p: &Puntata, is_palifico: bool) -> Vec<Puntata> {
     let mut v = (p.count..total_dices)
-                    .flat_map(|v| {
-                        let px = p.with_count(v);
-                        least_gt_puntate(&px, is_palifico)
-                    })
-                    .collect::<HashSet<_>>();
+        .flat_map(|v| {
+            let px = p.with_count(v);
+            least_gt_puntate(&px, is_palifico)
+        })
+        .collect::<HashSet<_>>();
 
     if !is_palifico || p.is_lama() {
         for i in p.count..total_dices + 1 {
@@ -97,7 +97,7 @@ pub fn all_gt_puntate(total_dices: i32, p: &Puntata, is_palifico: bool) -> Vec<P
     }
 
     v.remove(p);
-    v.insert(p.clone());
+    v.insert(*p);
 
     v.into_iter().collect()
 }

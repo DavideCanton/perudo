@@ -29,7 +29,7 @@ fn main() {
     println!("Enter players' other dices count:");
 
     let dice = read_int();
-    let my_dice = vec![Die::new(5)];
+    let my_dice = vec![Die::new(5), Die::new_lama(), Die::new(3)];
     println!("My dice: {:?}", my_dice);
 
     let p = Puntata::new(4, 5);
@@ -41,7 +41,7 @@ fn main() {
     sorted_all_probs.sort_by(|&(_, v1), &(_, v2)| v1.partial_cmp(&v2).unwrap().reverse());
 
     let prob_of_p = {
-        let ref t = sorted_all_probs.iter().find(|&&(p1, _)| p1 == p).unwrap();
+        let t = sorted_all_probs.iter().find(|&&(p1, _)| p1 == p).unwrap();
         t.1
     };
 
@@ -55,5 +55,12 @@ fn main() {
         println!("I would play {}, with chance {1:.2}%",
                  sorted_all_probs[0].0,
                  sorted_all_probs[0].1 * 100.0);
+    }
+
+    println!("");
+    println!("List of all probs:");
+
+    for prob in sorted_all_probs.iter().take(10) {
+        println!("{}, with chance {1:.2}%", prob.0, prob.1 * 100.0);
     }
 }
