@@ -1,5 +1,7 @@
 use std::fmt;
 
+const LAMA_VALUE : i32 = 1;
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Die {
     val: i32,
@@ -11,7 +13,7 @@ impl Die {
     }
 
     pub fn new_lama() -> Self {
-        Die::new(1)
+        Die::new(LAMA_VALUE)
     }
 
     pub fn matches_value(&self, n: i32, is_palifico: bool) -> bool {
@@ -23,7 +25,7 @@ impl Die {
     }
 
     pub fn is_lama(&self) -> bool {
-        self.val == 1
+        self.val == LAMA_VALUE
     }
 
     pub fn get_value(&self) -> i32 {
@@ -34,7 +36,7 @@ impl Die {
 impl fmt::Display for Die {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         match self.val {
-            1 => write!(fmt, "Lama"),
+            LAMA_VALUE => write!(fmt, "Lama"),
             n => write!(fmt, "{}", n),
         }
     }
@@ -42,7 +44,7 @@ impl fmt::Display for Die {
 
 #[cfg(test)]
 mod tests {
-    use die::Die;
+    use die::{Die, LAMA_VALUE};
 
     #[test]
     fn test_die_val() {
@@ -61,9 +63,9 @@ mod tests {
 
     #[test]
     fn test_die_lama_matches() {
-        let d = Die::new(1);
-        assert!(d.matches_value(1, false));
-        assert!(d.matches_value(1, true));
+        let d = Die::new_lama();
+        assert!(d.matches_value(LAMA_VALUE, false));
+        assert!(d.matches_value(LAMA_VALUE, true));
         assert!(d.matches_value(2, false));
         assert!(!d.matches_value(2, true));
     }

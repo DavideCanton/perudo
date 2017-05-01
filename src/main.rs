@@ -29,7 +29,14 @@ fn main() {
     println!("Enter players' other dices count:");
 
     let dice = read_int();
-    let my_dice = vec![Die::new(5), Die::new_lama(), Die::new(3)];
+    let mut my_dice = vec![];
+
+    for _ in 0..5 {
+        let dice = read_int();
+
+        my_dice.push(Die::new(dice));
+    }
+
     println!("My dice: {:?}", my_dice);
 
     let p = Puntata::new(4, 5);
@@ -57,10 +64,10 @@ fn main() {
                  sorted_all_probs[0].1 * 100.0);
     }
 
-    println!("");
+    println!();
     println!("List of all probs:");
 
-    for prob in sorted_all_probs.iter().take(10) {
+    for prob in sorted_all_probs.iter().take(40) {
         println!("{}, with chance {1:.2}%", prob.0, prob.1 * 100.0);
     }
 }

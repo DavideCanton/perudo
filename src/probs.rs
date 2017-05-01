@@ -94,7 +94,9 @@ mod tests {
 
     #[test]
     fn test_my_dices_matching() {
-        let my_dices : Vec<Die> = vec![2, 2, 1, 4, 5].into_iter().map(Die::new).collect();
+        let mut my_dices : Vec<Die> = vec![2, 2, 4, 5].into_iter().map(Die::new).collect();
+
+        my_dices.push(Die::new_lama());
 
         let c = my_dices_matching(&my_dices, 2, false);
 
@@ -103,7 +105,9 @@ mod tests {
 
     #[test]
     fn test_my_dices_matching_palifico() {
-        let my_dices : Vec<Die> = vec![2, 2, 1, 4, 5].into_iter().map(Die::new).collect();
+        let mut my_dices : Vec<Die> = vec![2, 2, 4, 5].into_iter().map(Die::new).collect();
+
+        my_dices.push(Die::new_lama());
 
         let c = my_dices_matching(&my_dices, 2, true);
 

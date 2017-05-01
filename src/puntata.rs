@@ -55,31 +55,31 @@ impl fmt::Display for Puntata {
 }
 
 pub fn least_gt_puntate(p: &Puntata, is_palifico: bool) -> Vec<Puntata> {
-    let mut v = vec![];
+    let mut puntate = vec![];
 
     if !p.is_lama() {
         for i in (p.value.get_value() + 1)..7 {
-            v.push(Puntata::new(p.count, i));
+            puntate.push(Puntata::new(p.count, i));
         }
 
         for i in 2..7 {
-            v.push(Puntata::new(p.count + 1, i));
+            puntate.push(Puntata::new(p.count + 1, i));
         }
 
-        v.push(Puntata::new((p.count + 1) / 2, 1));
+        puntate.push(Puntata::new_lama((p.count + 1) / 2));
     } else {
-        v.push(Puntata::new(p.count + 1, 1));
+        puntate.push(Puntata::new_lama(p.count + 1));
 
         for i in 2..7 {
-            v.push(Puntata::new(p.count * 2 + 1, i));
+            puntate.push(Puntata::new(p.count * 2 + 1, i));
         }
     }
 
     if is_palifico {
-        v.retain(|pv| pv.value == p.value)
+        puntate.retain(|pv| pv.value == p.value)
     }
 
-    v
+    puntate
 }
 
 pub fn all_gt_puntate(total_dices: i32, p: &Puntata, is_palifico: bool) -> Vec<Puntata> {
