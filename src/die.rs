@@ -9,11 +9,20 @@ pub struct Die {
 
 impl Die {
     pub fn new(val: i32) -> Self {
-        Die { val: val }
+        if Die::is_lama_value(val) {
+            Die::new_lama()
+        }
+        else {
+            Die::create_die(val)
+        }
     }
 
     pub fn new_lama() -> Self {
-        Die::new(LAMA_VALUE)
+        Die::create_die(LAMA_VALUE)
+    }
+
+    fn create_die(val: i32) -> Self {
+        Die { val: val }
     }
 
     pub fn matches_value(&self, n: i32, is_palifico: bool) -> bool {
@@ -25,11 +34,15 @@ impl Die {
     }
 
     pub fn is_lama(&self) -> bool {
-        self.val == LAMA_VALUE
+        Die::is_lama_value(self.val)
     }
 
     pub fn get_value(&self) -> i32 {
         self.val
+    }
+
+    pub fn is_lama_value(val: i32) -> bool {
+        val == LAMA_VALUE
     }
 }
 
