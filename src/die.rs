@@ -1,6 +1,6 @@
 use std::fmt;
 
-const LAMA_VALUE : i32 = 1;
+const LAMA_VALUE: i32 = 1;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Die {
@@ -11,8 +11,7 @@ impl Die {
     pub fn new(val: i32) -> Self {
         if Die::is_lama_value(val) {
             Die::new_lama()
-        }
-        else {
+        } else {
             Die::create_die(val)
         }
     }
@@ -57,7 +56,7 @@ impl fmt::Display for Die {
 
 #[cfg(test)]
 mod tests {
-    use die::{Die, LAMA_VALUE};
+    use crate::die::{Die, LAMA_VALUE};
 
     #[test]
     fn test_die_val() {

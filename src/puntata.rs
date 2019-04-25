@@ -1,6 +1,6 @@
-use std::fmt;
+use crate::die::Die;
 use std::collections::HashSet;
-use die::Die;
+use std::fmt;
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Puntata {
@@ -50,7 +50,6 @@ impl fmt::Display for Puntata {
         } else {
             write!(fmt, "Puntata di {} {}", self.count, self.value.get_value())
         }
-
     }
 }
 

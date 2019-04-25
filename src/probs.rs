@@ -1,10 +1,10 @@
-use std::cmp::max;
-use die::Die;
-use std::collections::HashMap;
-use probability::distribution::{Categorical, Binomial, Sample, Discrete};
-use random::{default, Default};
+use crate::die::Die;
+use crate::puntata::{all_gt_puntate, Puntata};
+use probability::distribution::{Binomial, Categorical, Discrete, Sample};
 use rand::{thread_rng, Rng};
-use puntata::{Puntata, all_gt_puntate};
+use random::{default, Default};
+use std::cmp::max;
+use std::collections::HashMap;
 
 pub struct DieGenerator {
     dist: Categorical,
@@ -29,7 +29,8 @@ impl DieGenerator {
 }
 
 fn my_dices_matching(my_dices: &[Die], value: i32, is_palifico: bool) -> i32 {
-    my_dices.iter()
+    my_dices
+        .iter()
         .filter(|d| d.matches_value(value, is_palifico))
         .count() as i32
 }
@@ -56,15 +57,17 @@ pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: &Puntat
     }
 }
 
-pub fn get_probs_of(other_dices: i32,
-                    my_dices: &[Die],
-                    is_palifico: bool,
-                    least_puntata: &Puntata)
-                    -> HashMap<Puntata, f64> {
+pub fn get_probs_of(
+    other_dices: i32,
+    my_dices: &[Die],
+    is_palifico: bool,
+    least_puntata: &Puntata,
+) -> HashMap<Puntata, f64> {
     let total_dices = other_dices + my_dices.len() as i32;
     let all_puntate = all_gt_puntate(total_dices, least_puntata, is_palifico);
 
-    all_puntate.iter()
+    all_puntate
+        .iter()
         .map(|&p| {
             let prob = prob_of(other_dices, my_dices, is_palifico, &p);
             (p, prob)
@@ -72,12 +75,11 @@ pub fn get_probs_of(other_dices: i32,
         .collect::<HashMap<_, _>>()
 }
 
-
 #[cfg(test)]
 mod tests {
-    use die::Die;
-    use puntata::Puntata;
-    use probs::{get_probs_of, my_dices_matching};
+    use crate::die::Die;
+    use crate::probs::{get_probs_of, my_dices_matching};
+    use crate::puntata::Puntata;
 
     #[test]
     fn test_get_probs_of() {

@@ -1,6 +1,6 @@
 extern crate probability;
-extern crate random;
 extern crate rand;
+extern crate random;
 
 #[allow(dead_code)]
 mod die;
@@ -9,9 +9,9 @@ mod probs;
 #[allow(dead_code)]
 mod puntata;
 
-use die::Die;
-use puntata::Puntata;
-use probs::get_probs_of;
+use crate::die::Die;
+use crate::probs::get_probs_of;
+use crate::puntata::Puntata;
 use std::io;
 
 fn read_int() -> i32 {
@@ -59,9 +59,11 @@ fn main() {
     if prob_of_p <= 0.2 {
         println!("I would dubitate...");
     } else {
-        println!("I would play {}, with chance {1:.2}%",
-                 sorted_all_probs[0].0,
-                 sorted_all_probs[0].1 * 100.0);
+        println!(
+            "I would play {}, with chance {1:.2}%",
+            sorted_all_probs[0].0,
+            sorted_all_probs[0].1 * 100.0
+        );
     }
 
     println!();
