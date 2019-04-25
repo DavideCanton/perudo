@@ -12,14 +12,14 @@ impl Puntata {
     pub fn new(count: i32, value: i32) -> Self {
         Puntata {
             value: Die::new(value),
-            count: count,
+            count,
         }
     }
 
     pub fn new_lama(count: i32) -> Self {
         Puntata {
             value: Die::new_lama(),
-            count: count,
+            count,
         }
     }
 
@@ -38,7 +38,7 @@ impl Puntata {
     pub fn with_count(&self, count: i32) -> Self {
         Puntata {
             value: Die::new(self.value.get_value()),
-            count: count,
+            count,
         }
     }
 }
@@ -90,7 +90,7 @@ pub fn all_gt_puntate(total_dices: i32, p: &Puntata, is_palifico: bool) -> Vec<P
         .collect::<HashSet<_>>();
 
     if !is_palifico || p.is_lama() {
-        for i in p.count..total_dices + 1 {
+        for i in p.count..=total_dices {
             v.insert(Puntata::new_lama(i));
         }
     }

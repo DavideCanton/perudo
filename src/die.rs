@@ -21,7 +21,7 @@ impl Die {
     }
 
     fn create_die(val: i32) -> Self {
-        Die { val: val }
+        Die { val }
     }
 
     pub fn matches_value(&self, n: i32, is_palifico: bool) -> bool {

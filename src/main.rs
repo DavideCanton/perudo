@@ -1,7 +1,3 @@
-extern crate probability;
-extern crate rand;
-extern crate random;
-
 #[allow(dead_code)]
 mod die;
 #[allow(dead_code)]

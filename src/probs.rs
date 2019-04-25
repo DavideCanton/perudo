@@ -51,7 +51,7 @@ pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: &Puntat
     if start == 0 {
         1.0 // avoid floating point errors when 1 is sure
     } else {
-        (start..other_dices + 1)
+        (start..=other_dices)
             .map(|v| dist.mass(v as usize))
             .sum()
     }
