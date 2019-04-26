@@ -45,15 +45,13 @@ pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: &Puntat
         1.0 / 3.0
     };
 
-    let dist = Binomial::new(other_dices as usize, prob);
     let start = max(p.get_count() - valid_my_dices, 0);
 
     if start == 0 {
         1.0 // avoid floating point errors when 1 is sure
     } else {
-        (start..=other_dices)
-            .map(|v| dist.mass(v as usize))
-            .sum()
+        let dist = Binomial::new(other_dices as usize, prob);
+        (start..=other_dices).map(|v| dist.mass(v as usize)).sum()
     }
 }
 

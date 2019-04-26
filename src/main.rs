@@ -65,7 +65,7 @@ fn main() {
     println!();
     println!("List of all probs:");
 
-    for prob in sorted_all_probs.iter().take(40) {
+    for prob in sorted_all_probs.iter().take(40).filter(|&(_, x)| *x > 0.0) {
         println!("{}, with chance {1:.2}%", prob.0, prob.1 * 100.0);
     }
 }
