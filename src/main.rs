@@ -5,9 +5,7 @@ mod probs;
 #[allow(dead_code)]
 mod puntata;
 
-use crate::die::Die;
-use crate::probs::get_probs_of;
-use crate::puntata::Puntata;
+use crate::{die::Die,probs::get_probs_of,puntata::Puntata};
 use std::io;
 
 fn read_int() -> i32 {

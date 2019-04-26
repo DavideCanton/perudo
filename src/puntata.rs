@@ -1,6 +1,5 @@
 use crate::die::Die;
-use std::collections::HashSet;
-use std::fmt;
+use std::{collections::HashSet, fmt};
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Puntata {

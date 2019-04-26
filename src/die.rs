@@ -56,7 +56,7 @@ impl fmt::Display for Die {
 
 #[cfg(test)]
 mod tests {
-    use crate::die::{Die, LAMA_VALUE};
+    use super::{Die, LAMA_VALUE};
 
     #[test]
     fn test_die_val() {

@@ -1,10 +1,11 @@
-use crate::die::Die;
-use crate::puntata::{all_gt_puntate, Puntata};
+use crate::{
+    die::Die,
+    puntata::{all_gt_puntate, Puntata},
+};
 use probability::distribution::{Binomial, Categorical, Discrete, Sample};
 use rand::{thread_rng, Rng};
 use random::{default, Default};
-use std::cmp::max;
-use std::collections::HashMap;
+use std::{cmp::max, collections::HashMap};
 
 pub struct DieGenerator {
     dist: Categorical,
