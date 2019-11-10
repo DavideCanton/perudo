@@ -5,6 +5,6 @@ authors = ["Kami <davide.canton5@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-probability = "*"
-random = "*"
-rand = "*"
+probability = "0.17.0"
+random = "0.12.2"
+rand = "0.7.2"
