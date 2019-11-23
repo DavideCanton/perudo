@@ -41,10 +41,8 @@ fn main() {
 
     sorted_all_probs.sort_by(|&(_, v1), &(_, v2)| v1.partial_cmp(&v2).unwrap().reverse());
 
-    let prob_of_p = {
-        let t = sorted_all_probs.iter().find(|&&(p1, _)| p1 == p).unwrap();
-        t.1
-    };
+    let t = sorted_all_probs.iter().find(|&&(p1, _)| p1 == p).unwrap();
+    let prob_of_p = t.1;
 
     sorted_all_probs.retain(|&(px, _)| px != p);
 
