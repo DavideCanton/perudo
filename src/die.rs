@@ -24,7 +24,7 @@ impl Die {
         Die { val }
     }
 
-    pub fn matches_value(&self, n: i32, is_palifico: bool) -> bool {
+    pub fn matches_value(self, n: i32, is_palifico: bool) -> bool {
         if is_palifico {
             n == self.val
         } else {
@@ -32,11 +32,11 @@ impl Die {
         }
     }
 
-    pub fn is_lama(&self) -> bool {
+    pub fn is_lama(self) -> bool {
         Die::is_lama_value(self.val)
     }
 
-    pub fn get_value(&self) -> i32 {
+    pub fn get_value(self) -> i32 {
         self.val
     }
 

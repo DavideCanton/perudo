@@ -36,7 +36,7 @@ fn my_dices_matching(my_dices: &[Die], value: i32, is_palifico: bool) -> i32 {
         .count() as i32
 }
 
-pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: &Puntata) -> f64 {
+pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: Puntata) -> f64 {
     let valid_my_dices = my_dices_matching(my_dices, p.get_value(), is_palifico);
 
     let prob = if p.is_lama() || is_palifico {
@@ -57,18 +57,18 @@ pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: &Puntat
 }
 
 pub fn get_probs_of(
-    other_dices: i32,
-    my_dices: &[Die],
+    other_dice_cnt: i32,
+    my_dice: &[Die],
     is_palifico: bool,
-    least_puntata: &Puntata,
+    least_puntata: Puntata,
 ) -> HashMap<Puntata, f64> {
-    let total_dices = other_dices + my_dices.len() as i32;
+    let total_dices = other_dice_cnt + my_dice.len() as i32;
     let all_puntate = all_gt_puntate(total_dices, least_puntata, is_palifico);
 
     all_puntate
         .iter()
         .map(|&p| {
-            let prob = prob_of(other_dices, my_dices, is_palifico, &p);
+            let prob = prob_of(other_dice_cnt, my_dice, is_palifico, p);
             (p, prob)
         })
         .collect::<HashMap<_, _>>()
@@ -86,7 +86,7 @@ mod tests {
         let my_dices: Vec<Die> = vec![2, 2, 2, 4, 5].into_iter().map(Die::new).collect();
         let puntata = Puntata::new(2, 2);
 
-        let p_map = get_probs_of(other, &my_dices, false, &puntata);
+        let p_map = get_probs_of(other, &my_dices, false, puntata);
 
         let v = *p_map.get(&puntata.with_count(3)).unwrap();
 

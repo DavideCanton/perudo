@@ -22,19 +22,19 @@ impl Puntata {
         }
     }
 
-    pub fn get_value(&self) -> i32 {
+    pub fn get_value(self) -> i32 {
         self.value.get_value()
     }
 
-    pub fn get_count(&self) -> i32 {
+    pub fn get_count(self) -> i32 {
         self.count
     }
 
-    pub fn is_lama(&self) -> bool {
+    pub fn is_lama(self) -> bool {
         self.value.is_lama()
     }
 
-    pub fn with_count(&self, count: i32) -> Self {
+    pub fn with_count(self, count: i32) -> Self {
         Puntata {
             value: Die::new(self.value.get_value()),
             count,
@@ -52,7 +52,7 @@ impl fmt::Display for Puntata {
     }
 }
 
-pub fn least_gt_puntate(p: &Puntata, is_palifico: bool) -> Vec<Puntata> {
+pub fn least_gt_puntate(p: Puntata, is_palifico: bool) -> Vec<Puntata> {
     let mut puntate = vec![];
 
     if !p.is_lama() {
@@ -80,11 +80,11 @@ pub fn least_gt_puntate(p: &Puntata, is_palifico: bool) -> Vec<Puntata> {
     puntate
 }
 
-pub fn all_gt_puntate(total_dices: i32, p: &Puntata, is_palifico: bool) -> Vec<Puntata> {
+pub fn all_gt_puntate(total_dices: i32, p: Puntata, is_palifico: bool) -> Vec<Puntata> {
     let mut v = (p.count..total_dices)
         .flat_map(|v| {
             let px = p.with_count(v);
-            least_gt_puntate(&px, is_palifico)
+            least_gt_puntate(px, is_palifico)
         })
         .collect::<HashSet<_>>();
 
@@ -94,8 +94,8 @@ pub fn all_gt_puntate(total_dices: i32, p: &Puntata, is_palifico: bool) -> Vec<P
         }
     }
 
-    v.remove(p);
-    v.insert(*p);
+    v.remove(&p);
+    v.insert(p);
 
     v.into_iter().collect()
 }
