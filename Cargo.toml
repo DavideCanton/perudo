@@ -2,9 +2,9 @@
 name = "perudo"
 version = "0.1.0"
 authors = ["Kami <davide.canton5@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
-probability = "0.17.0"
+probability = "0.18.0"
 random = "0.12.2"
-rand = "0.7.2"
+rand = "0.8.5"

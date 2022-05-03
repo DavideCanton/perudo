@@ -22,15 +22,15 @@ impl Puntata {
         }
     }
 
-    pub fn get_value(self) -> i32 {
+    pub fn get_value(&self) -> i32 {
         self.value.get_value()
     }
 
-    pub fn get_count(self) -> i32 {
+    pub fn get_count(&self) -> i32 {
         self.count
     }
 
-    pub fn is_lama(self) -> bool {
+    pub fn is_lama(&self) -> bool {
         self.value.is_lama()
     }
 

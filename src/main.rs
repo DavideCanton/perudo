@@ -26,7 +26,7 @@ fn main() {
 
     let my_dice = (0..other_dice_cnt)
         .map(|_| Die::new(read_int()))
-        .collect::<Vec<Die>>();
+        .collect::<Vec<_>>();
 
     println!("My dice: {:?}", my_dice);
 
