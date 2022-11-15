@@ -36,7 +36,7 @@ impl Puntata {
 
     pub fn with_count(self, count: i32) -> Self {
         Puntata {
-            value: Die::new(self.value.get_value()),
+            value: self.value,
             count,
         }
     }

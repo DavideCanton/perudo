@@ -16,7 +16,7 @@ fn read_int() -> i32 {
         .expect("failed to read from stdin");
 
     let trimmed = input_text.trim();
-    trimmed.parse::<i32>().expect("Invalid integer!")
+    trimmed.parse().expect("Invalid integer!")
 }
 
 fn main() {
