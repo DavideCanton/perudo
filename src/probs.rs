@@ -19,7 +19,7 @@ impl DieGenerator {
 
         DieGenerator {
             dist: Categorical::new(v.as_slice()),
-            gen: default().seed([rng.gen(), rng.gen()]),
+            gen: default(rng.gen()),
         }
     }
 

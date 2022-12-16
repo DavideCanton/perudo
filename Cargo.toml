@@ -1,10 +1,10 @@
-[project]
+[package]
 name = "perudo"
 version = "0.1.0"
 authors = ["Kami <davide.canton5@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-probability = "0.18.0"
-random = "0.12.2"
+probability = "0.20.1"
+random = "0.13.2"
 rand = "0.8.5"
