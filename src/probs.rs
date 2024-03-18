@@ -2,9 +2,11 @@ use crate::{
     die::Die,
     puntata::{all_gt_puntate, Puntata},
 };
-use probability::distribution::{Binomial, Categorical, Discrete, Sample};
+use probability::{
+    distribution::{Binomial, Categorical, Discrete, Sample},
+    source::{default, Default},
+};
 use rand::{thread_rng, Rng};
-use random::{default, Default};
 use std::{cmp::max, collections::HashMap};
 
 pub struct DieGenerator {
@@ -25,18 +27,18 @@ impl DieGenerator {
 
     pub fn random_die(&mut self) -> Die {
         let n = self.dist.sample(&mut self.gen);
-        Die::new(n as i32 + 1)
+        Die::new(n as u8 + 1).unwrap()
     }
 }
 
-fn my_dices_matching(my_dices: &[Die], value: i32, is_palifico: bool) -> i32 {
+fn my_dices_matching(my_dices: &[Die], value: u8, is_palifico: bool) -> u8 {
     my_dices
         .iter()
         .filter(|d| d.matches_value(value, is_palifico))
-        .count() as i32
+        .count() as u8
 }
 
-pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: Puntata) -> f64 {
+pub fn prob_of(other_dices: u8, my_dices: &[Die], is_palifico: bool, p: Puntata) -> f64 {
     let valid_my_dices = my_dices_matching(my_dices, p.get_value(), is_palifico);
 
     let prob = if p.is_lama() || is_palifico {
@@ -46,7 +48,7 @@ pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: Puntata
         1.0 / 3.0
     };
 
-    let start = max(p.get_count() - valid_my_dices, 0);
+    let start = max(p.get_count() as i8 - valid_my_dices as i8, 0) as u8;
 
     if start == 0 {
         1.0 // avoid floating point errors when 1 is sure
@@ -57,12 +59,12 @@ pub fn prob_of(other_dices: i32, my_dices: &[Die], is_palifico: bool, p: Puntata
 }
 
 pub fn get_probs_of(
-    other_dice_cnt: i32,
+    other_dice_cnt: u8,
     my_dice: &[Die],
     is_palifico: bool,
     least_puntata: Puntata,
 ) -> HashMap<Puntata, f64> {
-    let total_dices = other_dice_cnt + my_dice.len() as i32;
+    let total_dices = other_dice_cnt + my_dice.len() as u8;
     let all_puntate = all_gt_puntate(total_dices, least_puntata, is_palifico);
 
     all_puntate
@@ -83,8 +85,11 @@ mod tests {
     #[test]
     fn test_get_probs_of() {
         let other = 5;
-        let my_dices: Vec<Die> = vec![2, 2, 2, 4, 5].into_iter().map(Die::new).collect();
-        let puntata = Puntata::new(2, 2);
+        let my_dices: Vec<Die> = vec![2, 2, 2, 4, 5]
+            .into_iter()
+            .map(|v| Die::new(v).unwrap())
+            .collect();
+        let puntata = Puntata::new(2, 2).unwrap();
 
         let p_map = get_probs_of(other, &my_dices, false, puntata);
 
@@ -95,7 +100,10 @@ mod tests {
 
     #[test]
     fn test_my_dices_matching() {
-        let mut my_dices: Vec<Die> = vec![2, 2, 4, 5].into_iter().map(Die::new).collect();
+        let mut my_dices: Vec<Die> = vec![2, 2, 4, 5]
+            .into_iter()
+            .map(|v| Die::new(v).unwrap())
+            .collect();
 
         my_dices.push(Die::new_lama());
 
@@ -106,7 +114,10 @@ mod tests {
 
     #[test]
     fn test_my_dices_matching_palifico() {
-        let mut my_dices: Vec<Die> = vec![2, 2, 4, 5].into_iter().map(Die::new).collect();
+        let mut my_dices: Vec<Die> = vec![2, 2, 4, 5]
+            .into_iter()
+            .map(|v| Die::new(v).unwrap())
+            .collect();
 
         my_dices.push(Die::new_lama());
 

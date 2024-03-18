@@ -4,29 +4,26 @@ use std::{collections::HashSet, fmt};
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Puntata {
     value: Die,
-    count: i32,
+    count: u8,
 }
 
 impl Puntata {
-    pub fn new(count: i32, value: i32) -> Self {
-        Puntata {
-            value: Die::new(value),
-            count,
-        }
+    pub fn new(count: u8, value: u8) -> Option<Self> {
+        Die::new(value).map(|d| Puntata { value: d, count })
     }
 
-    pub fn new_lama(count: i32) -> Self {
+    pub fn new_lama(count: u8) -> Self {
         Puntata {
             value: Die::new_lama(),
             count,
         }
     }
 
-    pub fn get_value(&self) -> i32 {
+    pub fn get_value(&self) -> u8 {
         self.value.get_value()
     }
 
-    pub fn get_count(&self) -> i32 {
+    pub fn get_count(&self) -> u8 {
         self.count
     }
 
@@ -34,7 +31,7 @@ impl Puntata {
         self.value.is_lama()
     }
 
-    pub fn with_count(self, count: i32) -> Self {
+    pub fn with_count(self, count: u8) -> Self {
         Puntata {
             value: self.value,
             count,
@@ -56,20 +53,20 @@ pub fn least_gt_puntate(p: Puntata, is_palifico: bool) -> Vec<Puntata> {
     let mut puntate = vec![];
 
     if !p.is_lama() {
-        for i in (p.value.get_value() + 1)..7 {
-            puntate.push(Puntata::new(p.count, i));
+        for i in (p.value.get_value() + 1)..=6 {
+            puntate.push(Puntata::new(p.count, i).unwrap());
         }
 
-        for i in 2..7 {
-            puntate.push(Puntata::new(p.count + 1, i));
+        for i in 2..=6 {
+            puntate.push(Puntata::new(p.count + 1, i).unwrap());
         }
 
         puntate.push(Puntata::new_lama((p.count + 1) / 2));
     } else {
         puntate.push(Puntata::new_lama(p.count + 1));
 
-        for i in 2..7 {
-            puntate.push(Puntata::new(p.count * 2 + 1, i));
+        for i in 2..=6 {
+            puntate.push(Puntata::new(p.count * 2 + 1, i).unwrap());
         }
     }
 
@@ -80,7 +77,7 @@ pub fn least_gt_puntate(p: Puntata, is_palifico: bool) -> Vec<Puntata> {
     puntate
 }
 
-pub fn all_gt_puntate(total_dices: i32, p: Puntata, is_palifico: bool) -> Vec<Puntata> {
+pub fn all_gt_puntate(total_dices: u8, p: Puntata, is_palifico: bool) -> Vec<Puntata> {
     let mut v = (p.count..total_dices)
         .flat_map(|v| {
             let px = p.with_count(v);

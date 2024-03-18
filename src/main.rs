@@ -5,10 +5,10 @@ mod probs;
 #[allow(dead_code)]
 mod puntata;
 
-use crate::{die::Die,probs::get_probs_of,puntata::Puntata};
+use crate::{die::Die, probs::get_probs_of, puntata::Puntata};
 use std::io;
 
-fn read_int() -> i32 {
+fn read_int() -> u8 {
     let mut input_text = String::new();
 
     io::stdin()
@@ -25,12 +25,12 @@ fn main() {
     let other_dice_cnt = read_int();
 
     let my_dice = (0..other_dice_cnt)
-        .map(|_| Die::new(read_int()))
+        .map(|_| Die::new(read_int()).expect("Invalid value for die"))
         .collect::<Vec<_>>();
 
     println!("My dice: {:?}", my_dice);
 
-    let puntata = Puntata::new(4, 5);
+    let puntata = Puntata::new(4, 5).unwrap();
 
     let all_probs = get_probs_of(other_dice_cnt, &my_dice, false, puntata);
 
@@ -38,7 +38,10 @@ fn main() {
 
     sorted_all_probs.sort_by(|&(_, v1), &(_, v2)| v1.partial_cmp(&v2).unwrap().reverse());
 
-    let t = sorted_all_probs.iter().find(|&&(p1, _)| p1 == puntata).unwrap();
+    let t = sorted_all_probs
+        .iter()
+        .find(|&&(p1, _)| p1 == puntata)
+        .unwrap();
     let prob_of_p = t.1;
 
     sorted_all_probs.retain(|&(px, _)| px != puntata);
