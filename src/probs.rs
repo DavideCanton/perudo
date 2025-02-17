@@ -6,7 +6,7 @@ use probability::{
     distribution::{Binomial, Categorical, Discrete, Sample},
     source::{default, Default},
 };
-use rand::{thread_rng, Rng};
+use rand::{rng, Rng};
 use std::{cmp::max, collections::HashMap};
 
 pub struct DieGenerator {
@@ -17,11 +17,11 @@ pub struct DieGenerator {
 impl DieGenerator {
     pub fn new() -> Self {
         let v = vec![1.0 / 6.0; 6];
-        let mut rng = thread_rng();
+        let mut rng = rng();
 
         DieGenerator {
             dist: Categorical::new(v.as_slice()),
-            gen: default(rng.gen()),
+            gen: default(rng.random()),
         }
     }
 
